@@ -1,16 +1,16 @@
-=== Folder Gallery ===
-Contributors: vjalby
-Tags: gallery, folder, lightbox
-Requires at least: 3.5
-Tested up to: 4.2.2
-Stable tag: 1.7.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Donate link: http://jalby.org/wordpress/donate/
+# Folder Gallery
++ Contributors: vjalby
++ Tags: gallery, folder, lightbox
++ Requires at least: 3.5
++ Tested up to: 4.2.2
++ Stable tag: 1.7.2
++ License: GPLv2 or later
++ License URI: http://www.gnu.org/licenses/gpl-2.0.html
++ Donate link: http://jalby.org/wordpress/donate/
 
 This plugin generates picture (or document) galleries from a folder using a shortcode.
 
-== Description ==
+## Description 
 
 This plugin creates picture (or document) galleries from a folder. 
 The pictures folder must be uploaded (using FTP) somewhere on the server (e.g. wp-content/upload). It must be writable (chmod 777).
@@ -51,7 +51,7 @@ Most of theses settings can be overridden using the corresponding shortcode :
  
 Sample, contact available at http://jalby.org/wordpress/
 
-== Installation ==
+## Installation
 
 1. Unzip the archive foldergallery.zip
 2. Upload the directory 'foldergallery' to the '/wp-content/plugins/' directory
@@ -65,9 +65,9 @@ Sample, contact available at http://jalby.org/wordpress/
 	
 7. To use Fancybox 2 engine, see FAQ
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions 
 
-= How to install Lightbox 2 JS engine? =
+### How to install Lightbox 2 JS engine? 
 
 1. Download Lightbox 2 from http://lokeshdhakar.com/projects/lightbox2/
 2. Unzip the archive
@@ -75,7 +75,7 @@ Sample, contact available at http://jalby.org/wordpress/
 4. Go To Wordpress > Settings > Folder Gallery and select Lightbox 2 as Gallery Engine.
 5. Done!
 
-= How to install Fancybox 2? =
+### How to install Fancybox 2? 
 
 1. Download fancybox 2 from http://fancyapps.com/fancybox/#license
 2. Unzip the archive then rename the directory to 'fancybox'.
@@ -83,7 +83,7 @@ Sample, contact available at http://jalby.org/wordpress/
 4. Go To Wordpress > Settings > Folder Gallery and select Fancybox 2 as Gallery Engine.
 5. Done!
 
-= How to install Lightview 3? =
+### How to install Lightview 3? 
 
 1. Download lightview from http://projects.nickstakenburg.com/lightview/download
 2. Unzip the archive then rename the directory to 'lightview' (i.e., remove version number).
@@ -100,7 +100,7 @@ You can set default options in Folder Gallery Options Page.
 
 See http://projects.nickstakenburg.com/lightview/documentation for details about Lightview options.
 
-= Can I use Folder Gallery along with another Lightbox plugin? =
+### Can I use Folder Gallery along with another Lightbox plugin? 
 
 Folder Gallery has built-in support for "Easy Fancybox" plugin by RavanH, "Responsive Lightbox" plugin by dFactory, and "Slenderbox" plugin by Matthew Petroff. After activating the plugin, select it in Folder Gallery Settings (Gallery Engine).
 
@@ -112,17 +112,17 @@ This should work with
 * Lightview Plus 3.1.3+ by Puzich
 * Maybe other
 
-= Can I use Easy Fancybox plugin along with Folder Gallery? =
+### Can I use Easy Fancybox plugin along with Folder Gallery? 
 
 Yes! First install and activate Easy Fancybox plugin. In Wordpress > Settings > Media > Fancybox > Images > Gallery, Disabled Autogllery. Then, in Wordpress > Settings > Folder Gallery, select "Easy Fancybox (plugin)" as Gallery Engine.
 
-= How to use the GridLayout of jQuery Masonry Image Gallery Plugin with Folder Gallery? =
+### How to use the GridLayout of jQuery Masonry Image Gallery Plugin with Folder Gallery? 
 
 First install and activate jQuery Masonry Image Gallery, then check the GridLayout option in Folder Gallery Misc Settings. 
 
 If thumbnails height is non-zero in Folder Gallery option, then width is used for landscape pictures and height for portrait pictures ; the other size is calculated to keep picture proportions. If thumbnails height is set to zero, then all pictures have the same width ; height is calculated to keep picture proportions.
 
-= I'd like to display a single thumbnail instead of the full thumbnails list =
+### I'd like to display a single thumbnail instead of the full thumbnails list 
 
 Add the attribute `thumbnails` in the shortcode with value `single` to display only the first thumbnail.
 
@@ -132,13 +132,13 @@ If you want to use a different picture (than the first) as the single thumbnail 
 
 To hide gallery title under the thumbnail, add `title=""`. You then should set `caption' to something else than `default`, e.g., `caption="filename"`.
 
-= I'd like to display only the n first thumbnails instead of the full thumbnails list =
+### I'd like to display only the n first thumbnails instead of the full thumbnails list 
 
 Add the attribute `thumbnails` in the shortcode with value `n` to display only the n first thumbnails.
 
 	[foldergallery folder="path" title="My Gallery" thumbnails=3]
 
-= I'd like to display a (sub)title under each thumbnail =
+### I'd like to display a (sub)title under each thumbnail 
 
 You have to set show_thumbnail_captions to 1 (or change the global option in Folder Gallery Settings) using 
 
@@ -148,7 +148,7 @@ The caption format is set with the attribute `caption`. It can be set to `filena
 
 	[foldergallery folder="path" title="My Gallery" show_thumbnail_captions=1 caption='smartfilename']
 	
-= How to display a document list ?=
+### How to display a document list ?
 
 To build a list or gallery of a folder documents, use the following short code : 
 
@@ -160,12 +160,12 @@ A generic document thumbnail is used for all documents. To use a custom thumbnai
 
 Engine and filetypes can be change in the Settings page.
 
-== Screenshots ==
+## Screenshots
 1. Folder Gallery Options
 2. Folder Gallery in a post
 3. Folder Gallery Lightbox
 
-== Changelog ==
+## Changelog 
 
 = 1.8a7 [2015-08-12] =
 * Basic support of subfolders.
