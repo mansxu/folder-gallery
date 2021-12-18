@@ -1,5 +1,6 @@
 # Folder Gallery
-+ Contributors: vjalby
++ Contributors: mansxu
++ Original author: vjalby
 + Tags: gallery, folder, lightbox
 + Requires at least: 3.5
 + Tested up to: 4.2.2
