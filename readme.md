@@ -8,6 +8,8 @@
 + License: GPLv2 or later
 + License URI: http://www.gnu.org/licenses/gpl-2.0.html
 + Donate link: http://jalby.org/wordpress/donate/
++ Folder icon: License CC0 https://www.svgrepo.com/svg/37289/image
++ Up arrow icon: License CC0 https://www.svgrepo.com/svg/77182/up-arrow
 
 This plugin generates picture (or document) galleries from a folder using a shortcode.
 
