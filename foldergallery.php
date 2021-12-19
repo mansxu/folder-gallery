@@ -337,6 +337,10 @@ class foldergallery{
 		if ( $subtitle ) $caption = $subtitle;
 
 		$folder = rtrim( $folder, '/' ); // Remove trailing / from path
+		$subf = $_GET['at'] ?? null;
+		if ($subf) {
+            $folder = $folder . '/' . $subf;
+        }
 
 		if ( !is_dir( $folder ) ) {
 			return '<p style="color:red;"><strong>' . __( 'Folder Gallery Error:', 'foldergallery' ) . '</strong> ' .
@@ -348,16 +352,6 @@ class foldergallery{
 		chdir( $folder );
 		$subfolder = glob( '*' , GLOB_ONLYDIR );
 		chdir( $cwd ); // Back to root
-		if ( count( $subfolder ) > 0 ) {
-			$NoF = count( $subfolder );
-			for ( $idf = 0 ; $idf < $NoF ; $idf++ ) {
-				if ( strpos( $subfolder[$idf], 'cache_' ) === false ) {
-					$gallery_code .= $this->fg_gallery( array_replace( $atts, array ( 'folder' => $folder . '/' . $subfolder[$idf] ) ) ) ;
-				}
-			}
-			
-		}
-		//echo $folder . '|' ;
 		
 		if ( $engine == 'documentgallery' || $engine == 'documentlist') {
 			$pictures = $this->file_array( $folder, $sort, $filetypes );
@@ -366,7 +360,7 @@ class foldergallery{
 		}
 
 		$NoP = count( $pictures );		
-		if ( 0 == $NoP ) {
+		if ( 0 == $NoP && 0 == count($subfolder)) {
 			return '<p style="color:red;"><strong>' . __( 'Folder Gallery Error:', 'foldergallery' ) . '</strong> ' .
 				sprintf( __( 'No picture available inside %s.', 'foldergallery' ), $folder ) . '</p>';
 		}	
@@ -431,10 +425,19 @@ class foldergallery{
 			}
 		}
 		
+
+		//echo $folder . '|' ;
 		if ( $engine != 'documentgallery' && $engine != 'documentlist' ) {
 			$this->fg_scripts();			
 			$lightbox_id = uniqid(); //md5( $folder . );
 		}
+		if ( $subf ) {
+            $up = implode('/', array_slice(explode('/', $subf), 0 , -1));
+            $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle>\n";
+            $gallery_code .= '<a title="Up" href="?at=' . $up . '"><img src="' . plugins_url() . '/folder-gallery/img/up.svg" style="width:40px;margin:0;padding:2px;border-width:1px;" alt="Up" /></a>';
+            $gallery_code .= "<div class='fg_caption'>Up</div></div>\n";	
+            $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle><div style='font-size:200%;'>" . end(explode('/', $subf)) . "</div></div>\n";	
+        }
 		// Main Div
 		if ( 'photoswipe' == $engine ) {
 			$gallery_code .= '<div class="fg_gallery gallery-icon">';
@@ -462,6 +465,26 @@ class foldergallery{
 			$thumbnails = 'all';
 		} else {
 			$max_thumbnails_idx = $NoP - 1 + $start_idx;
+		}
+		if ( count( $subfolder ) > 0 ) {
+			$NoF = count( $subfolder );
+			$base = "";
+			if ( $subf ) {
+                $base = $subf . "/";
+            }
+			for ( $idf = 0 ; $idf < $NoF ; $idf++ ) {
+				if ( strpos( $subfolder[$idf], 'cache_' ) === false ) {
+					// $gallery_code .= $this->fg_gallery( array_replace( $atts, array ( 'folder' => $folder . '/' . $subfolder[$idf] ) ) ) ;
+                    if ( 1 == $gridlayout ) {
+                        $gallery_code .= "\n<div class=\"fg_thumbnail gallery-item\"$thmbdivstyle>\n";
+                    } else {
+                        $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle>\n";
+                    }
+					$gallery_code .= '<a title="' . $subfolder[$idf] . '" href="?at=' . $base . $subfolder[$idf] . '">';
+                    $gallery_code .= '<img src="' . plugins_url() . '/folder-gallery/img/folder.svg" style="' . $imgstyle . '" alt="' . $subfolder[$idf] . '" /></a><div class="fg_caption">' . $subfolder[$idf] . "</div></div>\n";
+				}
+			}
+			
 		}
 		// Main Loop
 		for ( $idx = $start_idx ; $idx < $NoP ; $idx++ ) {
