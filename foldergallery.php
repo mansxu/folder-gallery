@@ -329,7 +329,8 @@ class foldergallery{
 			'sort'	  => $fg_options['sort'],
 			'filetypes'   => $fg_options['filetypes'],
 			'engine' => $fg_options['engine'],
-			'gridlayout' => $fg_options['gridlayout']
+			'gridlayout' => $fg_options['gridlayout'],
+			'cachedir' => $fg_options['cachedir']
 		), $atts ) );
 		
 		// 1.3 Compatibility
@@ -377,13 +378,28 @@ class foldergallery{
 		$padding=intval($padding);
 		// Cache folder
 		if ( $engine != 'documentgallery' && $engine != 'documentlist') {
+            $destfolder = $folder;
+            if ( $cachedir != '') {
+                if ( substr($cachedir, -1) != '/') {
+                    $cachedir = $cachedir . '/';
+                }
+                $i = 0;
+                for (; $i < min(strlen($folder), strlen($cachedir)); $i++) {
+                    if ( $folder[$i] != $cachedir[$i] ) break;
+                }
+                if ( $i > 0 ) {
+                    $destfolder = $cachedir . substr($folder, $i);
+                } else {
+                    $destfolder = $cachedir . $folder;
+                }
+            }
 			if ( $gridlayout && $height > 0) { // Grid Layout
-				$cache_folder = $folder . '/cache_' . $width . '+' . $height;
+				$cache_folder = $destfolder . '/cache_' . $width . '+' . $height;
 			} else {
-				$cache_folder = $folder . '/cache_' . $width . 'x' . $height;
+				$cache_folder = $destfolder . '/cache_' . $width . 'x' . $height;
 			}
 			if ( ! is_dir( $cache_folder ) ) {
-					@mkdir( $cache_folder, 0777 );
+					@mkdir( $cache_folder, 0777, true );
 			}
 			if ( ! is_dir( $cache_folder ) ) {
 				return '<p style="color:red;"><strong>' . __( 'Folder Gallery Error:', 'foldergallery' ) . '</strong> ' .
@@ -681,12 +697,14 @@ class foldergallery{
 		$input['gridlayout']          = intval( $input['gridlayout'] );
 		$input['permissions']          = intval( $input['permissions'] );
 		$input['orientation']          = intval( $input['orientation'] );
+		if (! is_dir(get_home_path() . $input['cachedir']) ) $input['cachedir'] = '';
 		return $input;
 	}
 
 	function fg_settings_default() {
 		$defaults = array(
 			'engine'			=> 'none',
+			'cachedir'          => '',
 			'sort'				=> 'filename',
 			'border' 			=> 1,
 			'padding' 			=> 2,
@@ -950,6 +968,7 @@ class foldergallery{
 		echo "</tbody></table>\n";
 		echo '<h3 class="title">' . __('Misc Settings','foldergallery') . "</h3>\n";
 		echo '<table class="form-table"><tbody>' . "\n";
+		echo '<tr valign="top"><th scope="row"><label for="cachedir">Cache Directory</label></th><td><input id="cachedir" name="FolderGallery[cachedir]" type="text" value="' . $fg_options["cachedir"] . '" size="60"></td></tr>';
 
 		echo '<tr><th>' . __('Layout', 'foldergallery')  . '</th><td><label for="gridlayout"><input name="FolderGallery[gridlayout]" type="checkbox" id="gridlayout" value="1"';
 		if ( 1 == $fg_options['gridlayout'] ) {
