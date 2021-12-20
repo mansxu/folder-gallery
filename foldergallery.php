@@ -309,6 +309,11 @@ class foldergallery{
 			return "$size_in_mb MB";
 		}
 	}
+	
+	function at_query_string( $at ) {
+        if ($_SERVER['QUERY_STRING'] == "") return 'at=' . urlencode($at);
+        return preg_replace('/at=([^&]*)/', "", $_SERVER['QUERY_STRING']) . '&at=' . urlencode($at);
+    }
 					
 	function fg_gallery( $atts ) { // Generate gallery
 		$fg_options = get_option( 'FolderGallery' );
@@ -339,7 +344,11 @@ class foldergallery{
 		$folder = rtrim( $folder, '/' ); // Remove trailing / from path
 		$subf = $_GET['at'] ?? null;
 		if ($subf) {
-            $folder = $folder . '/' . $subf;
+            // replace backslashes with forward slashes
+            $subf = str_replace("\\", '/', $subf);
+            if (!in_array("..", explode("/", $subf))) {
+                $folder = $folder . '/' . $subf;
+            }
         }
 
 		if ( !is_dir( $folder ) ) {
@@ -434,7 +443,7 @@ class foldergallery{
 		if ( $subf ) {
             $up = implode('/', array_slice(explode('/', $subf), 0 , -1));
             $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle>\n";
-            $gallery_code .= '<a title="Up" href="?at=' . $up . '"><img src="' . plugins_url() . '/folder-gallery/img/up.svg" style="width:40px;margin:0;padding:2px;border-width:1px;" alt="Up" /></a>';
+            $gallery_code .= '<a title="Up" href="?' . $this->at_query_string($up) .'"><img src="' . plugins_url() . '/folder-gallery/img/up.svg" style="width:40px;margin:0;padding:2px;border-width:1px;" alt="Up" /></a>';
             $gallery_code .= "<div class='fg_caption'>Up</div></div>\n";	
             $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle><div style='font-size:200%;'>" . end(explode('/', $subf)) . "</div></div>\n";	
         }
@@ -480,7 +489,7 @@ class foldergallery{
                     } else {
                         $gallery_code .= "\n<div class=\"fg_thumbnail\"$thmbdivstyle>\n";
                     }
-					$gallery_code .= '<a title="' . $subfolder[$idf] . '" href="?at=' . $base . $subfolder[$idf] . '">';
+					$gallery_code .= '<a title="' . $subfolder[$idf] . '" href="?' . $this->at_query_string($base . $subfolder[$idf]) . '">';
                     $gallery_code .= '<img src="' . plugins_url() . '/folder-gallery/img/folder.svg" style="' . $imgstyle . '" alt="' . $subfolder[$idf] . '" /></a><div class="fg_caption">' . $subfolder[$idf] . "</div></div>\n";
 				}
 			}
